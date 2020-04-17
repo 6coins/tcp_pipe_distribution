@@ -1,0 +1,39 @@
+[
+{tcp_pipe,                              % 配置的例子
+    [
+    
+    {one,                               % 1端配置 
+        [
+        {type, accept},                     % 1端的类型. 值得类型 : accept | connect | connect_x(type是connect_x表示连接不是固定的address和port, 子管子实现handle(send, {Request, State})从函数中得到Socket并根新到State)
+        {address, undefined},               % 连接地址. 值得类型 : inet:ip_address() | inet:hostname()(见gen_tcp:connect/4的Address参数) | undefined(如果type是accept或connect_x)
+        {port, 7770},                       % 端口. 值得类型 : inet:port_number()(见gen_tcp:listen/2或gen_tcp:connect/4的Port参数) | undefined(如果type是connect_x)
+        {options, []},                      % 选项. 值得类型 : list()(见gen_tcp:listen/2或gen_tcp:connect/4的Options参数)
+        {timeout, undefined},               % 连接超时. 值得类型 : timeout()(见gen_tcp:connect/4的Timeout参数) | undefined(如果type是accept)
+        {sub_pipes, []}                     % 子管子列表. 值得类型 : list() 可以在src/sub_pipes/目录选择0-N个模块名) 
+        ]
+    },
+    
+    {two,                               % 2端配置(字段解释同1端配置)
+        [
+        {type, connect},
+        {address, {127,0,0,1}},
+        {port, 7771},
+        {options, []},
+        {timeout, infinity},
+        {sub_pipes, []}
+        ]
+    },
+
+    {socket_dist,                       % socket分布配置. 值得类型 : list() | undefined
+            [
+            {is_socket_dist, true},         % 是否用socket将1,2端分布到两个应用. 值得类型 : true | false(即socket_dist失效)
+            {mm_child_side, two},           % 子进程是中间人的端. 值得类型 : one | two
+            {type, accept},                 % 类型. 值得类型 : accept | connect 
+            {address, undefined},           % 连接地址. 值得类型 : inet:ip_address() | inet:hostname()(见gen_tcp:connect/4的Address参数) | undefined(如果type是accept)
+            {port, 6660}                    % 端口. 值得类型 : inet:port_number()(见gen_tcp:listen/2或gen_tcp:connect/4的Port参数)
+            ]
+    }
+    ]
+}
+].
+

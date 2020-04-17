@@ -1,0 +1,25 @@
+{
+    application,
+    tcp_pipe,
+    [
+        {description, "tcp_pipe"},
+        {vsn, "1.0.0"},
+        {modules, [
+            tcp_pipe,
+            tp_app,
+            tp_sup,
+            tp_side_sup,
+            tp_side,
+            tp_side_mm,
+            tp_sockst_dist,
+            pipe_util
+        ]},
+        {registered, [
+            tp_sup,
+            tp_side_sup,
+            tp_sockst_dist
+        ]},
+        {applications, [kernel, stdlib]},
+        {mod, {tp_app, []}}
+    ]
+}.

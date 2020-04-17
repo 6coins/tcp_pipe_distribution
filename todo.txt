@@ -1,0 +1,34 @@
+
+%% 常用命令
+    find . -name "*.[he]rl" -print | etags -
+
+    debugger:start().
+
+    tcp_pipe:start().
+
+    tp_sup:start_link([]).
+
+    recon_trace:clear(), recon_trace:calls({tp_side,accept_handle,fun(_) -> return_trace() end}, 10, [{scope, local}]).
+
+    c("src/tcp_pipe/tp_side_mm.erl", [debug_info, {i, "include/"},{outdir, "ebin/"}]).
+
+    recon_trace:clear(), recon_trace:calls({tp_side_mm,accept_handle,fun(_) -> return_trace() end}, 10, [{scope, local}]).
+    recon_trace:clear(), recon_trace:calls({tp_side_mm,accept_handle,fun(_) -> return_trace() end}, 10).
+
+    supervisor:which_children(tp_sup).
+    supervisor:which_children(tp_one_sup).
+    supervisor:which_children(tp_two_sup).
+
+    tp_socket_dist:start_link(). 
+    tp_side_sup:start_link(one, ooo, ttt, tp_socket_dist).
+    tp_side_sup:start_link(two, ttt, ooo, tp_socket_dist).
+
+%% TODO 断网重连
+    make http_proxy_aa_cc_dist_tests 
+    1启动;浏览器连1,报timeout;
+    2启动;
+    2断开;
+    2启动;
+    浏览器连1,报错
+
+%% TODO README.txt
